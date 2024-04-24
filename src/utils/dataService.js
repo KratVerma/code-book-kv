@@ -14,9 +14,12 @@ export async function getUser() {
     },
   };
   const response = await fetch(
-    `http://localhost:8000/600/users/${cbid}`,
+    `${process.env.REACT_APP_HOST}/600/users/${cbid}`,
     reqOptions
   );
+  if (!response.ok) {
+    throw { message: response.statusText, status: response.status };
+  }
   const resData = await response.json();
   return resData;
 }
@@ -31,9 +34,12 @@ export async function getUserOrders() {
     },
   };
   const response = await fetch(
-    `http://localhost:8000/660/orders?user.id=${cbid}`,
+    `${process.env.REACT_APP_HOST}/660/orders?user.id=${cbid}`,
     reqOptions
   );
+  if (!response.ok) {
+    throw { message: response.statusText, status: response.status };
+  }
   const resData = await response.json();
   return resData;
 }
@@ -59,7 +65,13 @@ export async function createOrder(cartList, total, paymentId, user) {
     },
     body: JSON.stringify(order),
   };
-  const response = await fetch(`http://localhost:8000/660/orders/`, reqOptions);
+  const response = await fetch(
+    `${process.env.REACT_APP_HOST}/660/orders/`,
+    reqOptions
+  );
+  if (!response.ok) {
+    throw { message: response.statusText, status: response.status };
+  }
   const data = await response.json();
   return data;
 }

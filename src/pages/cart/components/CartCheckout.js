@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createOrder, getUser } from "../../../utils";
+import { toast } from "react-toastify";
 
 export function Checkout({ setShowCheckout, total, cartList, clearCart }) {
   const [user, setUser] = useState({});
@@ -11,8 +12,17 @@ export function Checkout({ setShowCheckout, total, cartList, clearCart }) {
 
   useEffect(() => {
     async function fetchData() {
-      const resData = await getUser();
-      setUser(resData);
+      try {
+        const resData = await getUser();
+        setUser(resData);
+      } catch (error) {
+        toast.error(error.message, {
+          closeButton: true,
+          position: "bottom-center",
+          autoClose: 4000,
+          closeOnClick: true,
+        });
+      }
     }
     fetchData();
   }, [cbid, token]);
@@ -29,6 +39,12 @@ export function Checkout({ setShowCheckout, total, cartList, clearCart }) {
       navigate("/order-summary", { state: { data, status: true } });
     } catch (error) {
       // throw new Error("Unable to fetch data", error);
+      toast.error(error.message, {
+        closeButton: true,
+        position: "bottom-center",
+        autoClose: 4000,
+        closeOnClick: true,
+      });
       navigate("/order-summary", { state: { message: error, status: true } });
     }
   }

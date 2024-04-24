@@ -3,14 +3,24 @@ import { DashboardCard } from "./components/DashboardCard";
 import { EmptyDashboard } from "./components/EmptyDashboard";
 import { getUserOrders } from "../../utils/dataService";
 import { useTitle } from "../../hooks/useTitle";
+import { toast } from "react-toastify";
 
 export function DashboardPage() {
   const [orders, setOrders] = useState([]);
   useTitle("Dashboard");
   useEffect(() => {
     async function getOrderData() {
-      const resData = await getUserOrders();
-      setOrders(resData);
+      try {
+        const resData = await getUserOrders();
+        setOrders(resData);
+      } catch (error) {
+        toast.error(error.message, {
+          closeButton: true,
+          position: "bottom-center",
+          autoClose: 4000,
+          closeOnClick: true,
+        });
+      }
     }
     getOrderData();
   }, []);

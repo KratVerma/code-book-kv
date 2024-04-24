@@ -6,7 +6,10 @@ export async function login(authDetail) {
     },
     body: JSON.stringify(authDetail),
   };
-  const response = await fetch("http://localhost:8000/login", reqOptions);
+  const response = await fetch(
+    `${process.env.REACT_APP_HOST}/login`,
+    reqOptions
+  );
   if (!response.ok) {
     throw { message: response.statusText, status: response.status };
   }
@@ -27,7 +30,10 @@ export async function register(authDetail) {
     },
     body: JSON.stringify(authDetail),
   };
-  const response = await fetch("http://localhost:8000/register", reqOptions);
+  const response = await fetch(
+    `${process.env.REACT_APP_HOST}/register`,
+    reqOptions
+  );
   if (!response.ok) {
     throw { message: response.statusText, status: response.status };
   }
