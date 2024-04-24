@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 export async function getProductList(searchRes) {
   const response = await fetch(
     `${process.env.REACT_APP_HOST}/444/products?name_like=${

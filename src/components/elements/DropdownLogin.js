@@ -23,7 +23,9 @@ export function DropdownLogin({ setShowDropdown }) {
       }
     }
     fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   function handleLogout() {
     logout();
     setShowDropdown(false);

@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 export async function login(authDetail) {
   const reqOptions = {
     method: "POST",

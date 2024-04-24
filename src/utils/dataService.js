@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 function getSessionData() {
   const token = JSON.parse(sessionStorage.getItem("token"));
   const cbid = JSON.parse(sessionStorage.getItem("cbid"));
