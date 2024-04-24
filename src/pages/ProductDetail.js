@@ -3,6 +3,8 @@ import { Ratings } from "../components/";
 import { useParams } from "react-router-dom";
 import { useTitle } from "../hooks/useTitle";
 import { useCart } from "../context";
+import { getProduct } from "../utils";
+import { toast } from "react-toastify";
 
 export function ProductDetail() {
   const { cartList, addToCart, removeFromCart } = useCart();
@@ -13,16 +15,21 @@ export function ProductDetail() {
   useTitle(product.name);
 
   useEffect(() => {
-    async function getProduct() {
+    async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:8000/products/${id}`);
-        const resData = await response.json();
+        const resData = await getProduct(id);
         setProduct(resData);
       } catch (error) {
-        throw new Error("unable to fetch data ---> ", error);
+        toast.error(error.message, {
+          closeButton: true,
+          position: "bottom-center",
+          autoClose: 4000,
+          closeOnClick: true,
+        });
+        // throw new Error("unable to fetch data ---> ", error);
       }
     }
-    getProduct();
+    fetchData();
   }, [id]);
 
   useEffect(() => {

@@ -1,9 +1,11 @@
 import { Route, Routes } from "react-router-dom";
 import {
   CartPage,
+  DashboardPage,
   HomePage,
   Login,
   OrderPage,
+  PageNotFound,
   ProductDetail,
   ProductList,
   Register,
@@ -34,6 +36,15 @@ export default function AllRoutes() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }

@@ -5,3 +5,5 @@ export { CartPage } from "./cart/CartPage";
 export { Login } from "./Login";
 export { Register } from "./Register";
 export { OrderPage } from "./order/OrderPage";
+export { DashboardPage } from "./dashboard/DashboardPage";
+export { PageNotFound } from "./PageNotFound";

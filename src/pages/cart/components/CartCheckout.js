@@ -1,68 +1,35 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { createOrder, getUser } from "../../../utils";
 
 export function Checkout({ setShowCheckout, total, cartList, clearCart }) {
   const [user, setUser] = useState({});
-  const [order, setOrder] = useState({});
   const navigate = useNavigate();
 
   const token = JSON.parse(sessionStorage.getItem("token"));
   const cbid = JSON.parse(sessionStorage.getItem("cbid"));
 
   useEffect(() => {
-    async function getUserData() {
-      const reqOptions = {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      const response = await fetch(
-        `http://localhost:8000/600/users/${cbid}`,
-        reqOptions
-      );
-      const resData = await response.json();
+    async function fetchData() {
+      const resData = await getUser();
       setUser(resData);
     }
-    getUserData();
+    fetchData();
   }, [cbid, token]);
 
   async function handleOrderSubmit(event) {
     event.preventDefault();
     const paymentId = new Date().getTime();
-    const order = {
-      cartList,
-      amount_paid: total,
-      quantity: cartList.length,
-      paymentId,
-      user: {
-        name: user.name,
-        email: user.email,
-        id: user.id,
-      },
-    };
-    const reqOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(order),
-    };
+
     try {
-      const response = await fetch(
-        `http://localhost:8000/660/orders/`,
-        reqOptions
-      );
-      const data = await response.json();
+      const data = await createOrder(cartList, total, paymentId, user);
       clearCart();
       //yes we can send data from navigate to the registered page in this case it is
       //"/order-summary" by passing state and in state we can pass data as below
       navigate("/order-summary", { state: { data, status: true } });
     } catch (error) {
-      throw new Error("Unable to fetch data", error);
-      // navigate("/order-summary", { state: { data, status: true } });
+      // throw new Error("Unable to fetch data", error);
+      navigate("/order-summary", { state: { message: error, status: true } });
     }
   }
 

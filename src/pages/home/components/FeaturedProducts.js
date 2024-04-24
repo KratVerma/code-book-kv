@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import { ProductCard } from "../../../components";
+import { getFeaturedList } from "../../../utils";
+import { toast } from "react-toastify";
 
 export function FeaturedProducts() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     async function getData() {
       try {
-        const response = await fetch("http://localhost:8000/featured_products");
-        const resData = await response.json();
+        const resData = await getFeaturedList();
         setProducts(resData);
       } catch (error) {
-        throw new Error("unable to fetch data ---> ", error);
+        // throw new Error("unable to fetch data ---> ", error);
+        toast.error(error.message, {
+          closeButton: true,
+          position: "bottom-center",
+          autoClose: 4000,
+          closeOnClick: true,
+        });
       }
     }
     getData();

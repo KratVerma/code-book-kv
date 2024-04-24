@@ -4,6 +4,8 @@ import { FilterBar } from "./components/ProductsFilterBar";
 import { useLocation } from "react-router-dom";
 import { useTitle } from "../../hooks/useTitle";
 import { useFilter } from "../../context";
+import { getProductList } from "../../utils";
+import { toast } from "react-toastify";
 
 export function ProductList() {
   //Global State which is useFliter that holds information like filters, sortby etx
@@ -22,16 +24,17 @@ export function ProductList() {
   useEffect(() => {
     async function getData() {
       try {
-        const response = await fetch(
-          `http://localhost:8000/products?name_like=${
-            searchRes ? searchRes : ""
-          }`
-        );
-        const resData = await response.json();
+        const resData = await getProductList(searchRes);
         // setProducts(resData);
         intializeProductsList(resData);
       } catch (error) {
-        throw new Error("unable to fetch data ---> ", error);
+        toast.error(error.message, {
+          closeButton: true,
+          position: "bottom-center",
+          autoClose: 4000,
+          closeOnClick: true,
+        });
+        // throw new Error("unable to fetch data ---> ", error);
       }
     }
     getData();
