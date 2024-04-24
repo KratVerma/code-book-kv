@@ -19,7 +19,7 @@ export function CartCard({ product }) {
           </Link>
           <button
             onClick={() => removeFromCart(product)}
-            className="text-base ml-2 text-red-400"
+            className="flex text-base ml-2 text-red-400"
           >
             Remove
           </button>
