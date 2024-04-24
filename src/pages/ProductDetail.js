@@ -26,7 +26,6 @@ export function ProductDetail() {
           autoClose: 4000,
           closeOnClick: true,
         });
-        // throw new Error("unable to fetch data ---> ", error);
       }
     }
     fetchData();
