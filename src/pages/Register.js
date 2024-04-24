@@ -14,7 +14,7 @@ export function Register() {
         email: event.target.email.value,
         password: event.target.password.value,
       };
-      const data = register(authDetail);
+      const data = await register(authDetail);
       data.accessToken ? navigate("/products") : toast.error(data.errors.email);
     } catch (error) {
       toast.error(error.message, {
